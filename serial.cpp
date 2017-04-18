@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+ #include <sys/time.h>
 using namespace std;
 int DIM;
 float epsilon;
@@ -118,13 +119,13 @@ void subsets(vector<int> data,vector<vector<float> > &centers,vector<int> index_
 					}
 					cout << mincost <<  " " << new_cost  << endl;
 				}
-				
+
 			}
 			else
 			{
 				data.erase(data.begin(),data.end());
 				subsets(data,centers,d2sampling(centers),N,M,0);
-				
+
 			}
 			centers.pop_back();
 
@@ -152,11 +153,11 @@ vector<int> generate_k_random(int n, int k)
 }
 int main()
 {
-	freopen("test.txt","r", stdin);
+	freopen("test1.txt","r", stdin);
 	//ifstream myfile ("digitdata.txt");
 	//int row = 1001,col = 157;
-	int row = 15,col = 2;
-	
+	int row = 12,col = 2;
+
 	mincost = INT_MAX;
 	K=3;
 	for(int i=0;i<row;i++)
@@ -201,9 +202,11 @@ int main()
 			input_set.push_back(v1);
 	}*/
 	//return 0;
+	struct timeval start, end;
+	gettimeofday(&start, NULL);
 	DIM = input_set[0].size();
-	N= 12;
-	M= 4;
+	N= 10;
+	M= 3;
 	//N = 400,M = 50;
 	total_data_points = input_set.size();
 	vector<int> index_of_n_sampled_points =  generate_k_random(total_data_points,N);
@@ -226,6 +229,10 @@ int main()
 	vector<int> data_subset;
 	vector<vector<float> > centers;
 	subsets(data_subset,centers,index_of_n_sampled_points,vec_0_N.size(),M,0);
+	gettimeofday(&end, NULL);
+	float delta = ((end.tv_sec  - start.tv_sec) * 1000000u +
+         		end.tv_usec - start.tv_usec) / 1.e6;
+    cout<<delta<<endl;
 	cout << "final centers are" << endl;
 	for(int i=0;i<opti_centers.size();i++)
 	{
