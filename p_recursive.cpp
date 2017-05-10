@@ -330,7 +330,7 @@ int main()
 	cout << "Done" << endl;
     int size = vec_0_N.size();
     int i;
-    #pragma omp parallel for num_threads(8)
+    #pragma omp parallel for num_threads(4)
     for(i=0;i<size;i++){
         vector<int> data;
         vector<vector<float> > centers;

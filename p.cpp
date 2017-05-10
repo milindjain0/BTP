@@ -144,6 +144,11 @@ void main_openmp(vector<int> indices,vector<int> index_of_n_sampled_points)
 	vector<vector<float> > centers;
 	vector<float> mean;
 	vector<int> data = all_subset_points[indices[0]];
+    if(indices[0] == 85 && indices[1] == 10 && indices[2] == 0 )
+    {
+         cout << "data is \n";
+         print(data);
+    }
 	for(int i=0;i<DIM;i++)
 		mean.push_back(0.0);
 	int data_size = data.size();
@@ -188,7 +193,7 @@ void main_openmp(vector<int> indices,vector<int> index_of_n_sampled_points)
 		centers.push_back(mean1);
 	}
 	float new_cost = cost(centers);
-	#pragma omp critical
+    #pragma omp critical
 	{			//cout << "new cost " << centers.size() << endl;
 		if(new_cost < mincost)
 		{
@@ -209,19 +214,19 @@ void main_openmp(vector<int> indices,vector<int> index_of_n_sampled_points)
 
 int main()
 {
-	freopen("test1.txt","r", stdin);
+	freopen("l2.txt","r", stdin);
 	//ifstream myfile ("digitdata.txt");
 	//int row = 1001,col = 157;
-	int row = 12,col = 2;
+	int row = 215,col = 2;
 	countn = 0;
 	mincost = INT_MAX;
-	K=3;
+	K=2;
 	for(int i=0;i<row;i++)
 	{
 		vector<float> v1;
 		for(int j=0;j<col;j++)
 		{
-			int a1;
+			float a1;
 			cin >> a1;
 			//cout <<  i << " " << j << " "  << a1  << endl;
 			v1.push_back((float)a1);
@@ -232,10 +237,12 @@ int main()
 	gettimeofday(&start, NULL);
 	DIM = input_set[0].size();
 	N= 10;
-	M= 3;
+	M= 4;
 	//N = 400,M = 50;
 	total_data_points = input_set.size();
 	vector<int> index_of_n_sampled_points =  generate_k_random(total_data_points,N);
+    cout << "sampled points are \n";
+    print(index_of_n_sampled_points);
 	//print(index_of_n_sampled_points);
 	/*cout << v1.size() << endl;// " " << v1[0].size() << endl;
 	for(int i =0;i<v1.size();i++)
@@ -265,14 +272,14 @@ int main()
 	//	a[i] = 0;
 	//iterative_subset_1(a,all_subset_points.size(),0);
 	int i1;
-	#pragma omp parallel for num_threads(24)
+	#pragma omp parallel for num_threads(4)
 	for(i1=0;i1<all_subset_points.size();i1++)
 	{
 		iterative_subset_open_mp(i1,all_subset_points.size());
 	}
 
 	cout << "Done" << endl;
-	#pragma omp parallel for num_threads(24)
+	#pragma omp parallel for num_threads(4)
 	for(i1=0;i1<k_indices_of_subset_points.size();i1++)
 	{
 		main_openmp(k_indices_of_subset_points[i1],index_of_n_sampled_points);

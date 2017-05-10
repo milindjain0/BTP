@@ -206,7 +206,7 @@ int main()
 	gettimeofday(&start, NULL);
 	DIM = input_set[0].size();
 	N= 10;
-	M= 3;
+	M= 4;
 	//N = 400,M = 50;
 	total_data_points = input_set.size();
 	vector<int> index_of_n_sampled_points =  generate_k_random(total_data_points,N);
